@@ -1,6 +1,6 @@
-# babylonian
+# Dark Forest
 
-Template for a Bablyon.js TypeScript project that uses Bun.
+Game based on the Dark Forest answer to the Fermi Paradox.
 
 ## Build
 ```bun build ./index.ts --outdir ./build --watch```
