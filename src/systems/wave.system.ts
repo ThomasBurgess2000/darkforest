@@ -3,6 +3,7 @@ import { IterativeSystem } from 'tick-knock/lib/ecs/IterativeSystem';
 import { WaveComponent } from '../components/wave.component';
 import { MeshBuilder } from '@babylonjs/core';
 import { PlanetComponent } from '../components/planet.component';
+import { EARTH_RADIUS } from '../constants/universals';
 
 export class PlanetWaveSystem extends IterativeSystem {
   public constructor() {
@@ -28,7 +29,7 @@ export class PlanetWaveSystem extends IterativeSystem {
   }
 
   private spawnWaveMesh(waveComponent: WaveComponent, planetComponent: PlanetComponent) {
-    const mesh = MeshBuilder.CreateSphere(planetComponent.name + ':wave', { diameter: 2 });
+    const mesh = MeshBuilder.CreateSphere(planetComponent.name + ':wave', { diameter: EARTH_RADIUS * 2 });
     mesh.parent = planetComponent.mesh;
     mesh.visibility = 0.5;
     waveComponent.mesh = mesh;

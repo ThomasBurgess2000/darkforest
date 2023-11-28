@@ -3,6 +3,7 @@ import { PlanetComponent } from '../components/planet.component';
 import { Entity } from 'tick-knock/lib/ecs/Entity';
 import { Color3, MeshBuilder, StandardMaterial } from '@babylonjs/core';
 import { WaveComponent } from '../components/wave.component';
+import { EARTH_RADIUS, gameScale } from '../constants/universals';
 
 export class PlanetSystem extends IterativeSystem {
   private redMaterial: StandardMaterial;
@@ -40,7 +41,7 @@ export class PlanetSystem extends IterativeSystem {
   }
 
   spawnPlanetMesh(planetComponent: PlanetComponent) {
-    const mesh = MeshBuilder.CreateSphere(planetComponent.name, { diameter: 2 });
+    const mesh = MeshBuilder.CreateSphere(planetComponent.name, { diameter: EARTH_RADIUS * 2 });
     mesh.position = planetComponent.position;
     mesh.material = this.whiteMaterial;
     planetComponent.mesh = mesh;
@@ -52,21 +53,17 @@ export class PlanetSystem extends IterativeSystem {
     for (const waveEntity of waveEntities) {
       const wave = waveEntity.get(WaveComponent);
       if (!wave) {
-        console.error('Wave component not found');
         continue;
       }
       if (!wave.mesh) {
-        console.error('Wave mesh not found');
         continue;
       }
       if (!planet.mesh) {
-        console.error('Planet mesh not found');
         continue;
       }
       const correspondingPlanet = waveEntity.get(PlanetComponent);
       const isWaveFromThisPlanet = correspondingPlanet && correspondingPlanet.name === planet.name;
       if (!isWaveFromThisPlanet && wave.mesh.intersectsMesh(planet.mesh, true, false)) {
-        console.log('Wave ' + wave.mesh.name + ' collided with planet ' + planet.name);
         anyWaveCollidedWithPlanet = true;
       }
     }
